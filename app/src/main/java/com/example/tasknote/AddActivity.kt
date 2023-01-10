@@ -15,20 +15,20 @@ class AddActivity : AppCompatActivity()
 
         // Нажали на кнопку "Сохранить"
         image_button_save_add.setOnClickListener {
-            // если ничего не ввели, выходим без действий
+            // Если ничего не ввели, то выходим без действий
             if (et_add_task.text.toString().isEmpty()) return@setOnClickListener
 
-            // получаем строку из sharedPreferences
+            // Получаем строку из sharedPreferences
             val textOld = sharedPreferences.getString(keyMemory, "")
 
-            // добавляем новую задачу в начало строки
+            // Добавляем новую задачу в начало строки
             val textNew = if (textOld == "") et_add_task.text.toString()
             else "${et_add_task.text}$split$textOld"
 
-            // заменяем строку в sharedPreferences
+            // Заменяем строку в sharedPreferences
             editor.clear().putString(keyMemory, textNew).apply()
 
-            finish() // возвращаемся в MainActivitz
+            finish() // Возвращаемся в MainActivity
         }
 
         // Нажали на кнопку "Удалить"

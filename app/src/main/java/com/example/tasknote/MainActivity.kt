@@ -1,8 +1,9 @@
 package com.example.tasknote
 
-// программа служит для :
-// записи списка дел
-// просмотра списка дел
+// Программа служит для:
+// записи списка дел,
+// просмотра списка дел,
+// пометки выполненных дел,
 // удаления выполненных дел
 
 import android.app.ListActivity
@@ -15,17 +16,17 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-// ключ для sharedPreferences
+// Ключ для sharedPreferences
 val keyMemory = "keyMemory"
 
-// объявляем sharedPreferences
+// Объявляем sharedPreferences
 lateinit var sharedPreferences: SharedPreferences
 lateinit var editor: Editor
 
-// создаём ArrayList для хранения списка дел в виде строк
+// Создаём ArrayList для хранения списка дел в виде строк
 val taskList = arrayListOf("")
 
-// индекс нажатого элемента
+// Индекс нажатого элемента
 var index = 0
 
 // pattern для разбиения строки
@@ -43,11 +44,11 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
             startActivity(Intent(this, AddActivity::class.java))
         }
 
-        // инициализируем sharedPreferences
+        // Инициализируем sharedPreferences
         initMemory()
     }
 
-    // инициализируем sharedPreferences
+    // Инициализируем sharedPreferences
     private fun initMemory()
     {
         sharedPreferences = getSharedPreferences(keyMemory, MODE_PRIVATE)
@@ -58,23 +59,23 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
     {
         super.onResume()
 
-        // заполняем taskList
+        // Заполняем taskList
         putToArrayList()
 
-        // создаём Адаптёр коллекции arrayList
+        // Создаём адаптёр коллекции arrayList
         setAdater()
     }
 
-    // заполняем taskList
+    // Заполняем taskList
     private fun putToArrayList()
     {
-        // получаем строку из sharedPreferences
+        // Получаем строку из sharedPreferences
         val text = sharedPreferences.getString(keyMemory, "")
 
-        // очищаем taskList
+        // Очищаем taskList
         taskList.clear()
 
-        // заполняем taskList
+        // Заполняем taskList
         val arrayString = text!!.split(split)
 
         for (element in arrayString)
@@ -83,16 +84,16 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
         }
     }
 
-    // создаём Адаптёр коллекции arrayList
+    // Создаём адаптёр коллекции arrayList
     private fun setAdater()
     {
-        // объявляем и инициализируем Адаптёр коллекции arrayList
+        // Объявляем и инициализируем адаптёр коллекции arrayList
         val adapter = ArrayAdapter(this, R.layout.list_view, taskList)
 
-        // подключаем Адаптёр
+        // Подключаем адаптёр
         setListAdapter(adapter)
 
-        // задаём слушателя OnItemLongClickListener
+        // Задаём слушателя OnItemLongClickListener
         listView.setOnItemClickListener(this)
     }
 
@@ -105,7 +106,7 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
 
         index = position
 
-        // переходим на ModifyActivity
+        // Переходим на ModifyActivity
         startActivity(Intent(this, ModifyActivity::class.java))
     }
 
@@ -120,7 +121,7 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
     {
         super.onBackPressed()
 
-        // завершаем приложение
+        // Завершаем работу приложения
         finishAndRemoveTask()
     }
 }
