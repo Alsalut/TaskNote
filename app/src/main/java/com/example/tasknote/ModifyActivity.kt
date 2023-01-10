@@ -16,28 +16,45 @@ class ModifyActivity : AppCompatActivity()
         et_modify_task.setText(taskList[index])
 
         // Нажали на кнопку "Сохранить"
-        image_button_save_modify.setOnClickListener {
-            // считываем текст из et_modify_task
+        image_button_save_modify.setOnClickListener { // считываем текст из et_modify_task
             val textModified = et_modify_task.text.toString()
 
             // если ничего не ввели, удаляем задачу
             // иначе заменяем задачу в taskList
-            if (textModified == "") taskList.removeAt(index)
+            if (textModified.isBlank()) taskList.removeAt(index)
             else taskList[index] = textModified
 
             // заменяем строку в sharedPreferences
             fillMemoryFromTaskList()
         }
 
-        // Нажали на кнопку "Удалить"
-        image_button_delete_modify.setOnClickListener {
-            // переносим выполненную задачу в конец списка
-            if(taskList.size != 1)
+        // Нажали на кнопку "Подтвердить"
+        image_button_ok_modify.setOnClickListener { // считываем текст из et_modify_task
+            val textModified = et_modify_task.text.toString()
+
+            // если ничего не ввели, удаляем задачу
+            // иначе заменяем задачу в taskList
+            // и переносим выполненную задачу в конец списка
+            if (textModified.isBlank()) taskList.removeAt(index)
+            else
             {
-                val textElement = taskList[index]
-                taskList.removeAt(index)
-                taskList.add(textElement)
+                taskList[index] = textModified
+
+                if (taskList.size > 1)
+                {
+                    val textElement = taskList[index]
+                    taskList.removeAt(index)
+                    taskList.add(textElement)
+                }
             }
+
+            // заменяем строку в sharedPreferences
+            fillMemoryFromTaskList()
+        }
+
+        // Нажали на кнопку "Удалить"
+        image_button_delete_modify.setOnClickListener { // удаляем задачу
+            taskList.removeAt(index)
 
             // заменяем строку в sharedPreferences
             fillMemoryFromTaskList()
@@ -46,14 +63,19 @@ class ModifyActivity : AppCompatActivity()
 
     // заменяем строку в sharedPreferences
     private fun fillMemoryFromTaskList()
-    {
-        // задаём начальное значение stringModified
+    { // задаём начальное значение stringModified
         var stringModified = if (taskList.isEmpty()) "" else taskList[0]
+        var flag = true
 
         // компонуем строку stringModified
         for (element in taskList)
         {
-            if (element == taskList[0]) continue
+            if (flag)
+            {
+                flag = false
+                continue
+            }
+
             stringModified = "$stringModified$split$element"
         }
 

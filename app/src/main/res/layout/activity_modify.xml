@@ -29,8 +29,19 @@
         android:background="@drawable/background_image_button"
         android:src="@drawable/btn_delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/image_button_save_modify"
+        app:layout_constraintEnd_toStartOf="@id/image_button_ok_modify"
         app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <ImageButton
+        android:id="@+id/image_button_ok_modify"
+        style="@style/style_image_button"
+        android:background="@drawable/background_image_button"
+        android:src="@drawable/btn_ok"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/image_button_delete_modify"
+        app:layout_constraintEnd_toStartOf="@id/image_button_save_modify"
         tools:ignore="ContentDescription" />
 
     <ImageButton
@@ -40,7 +51,7 @@
         android:src="@drawable/btn_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/image_button_delete_modify"
+        app:layout_constraintStart_toEndOf="@id/image_button_ok_modify"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
