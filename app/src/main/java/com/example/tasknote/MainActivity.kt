@@ -7,17 +7,29 @@ package com.example.tasknote
 
 import android.app.ListActivity
 import android.content.Intent
+import android.content.SharedPreferences
+import android.content.SharedPreferences.Editor
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
+// ключ для sharedPreferences
+val keyMemory = "keyMemory"
+
+// объявляем sharedPreferences
+lateinit var sharedPreferences: SharedPreferences
+lateinit var editor: Editor
+
 // создаём ArrayList для хранения списка дел в виде строк
 val taskList = arrayListOf("")
 
-// создаём ключ для Intent
-val keyPosition = "keyPosition"
+// индекс нажатого элемента
+var index = 0
+
+// pattern для разбиения строки
+val split = "&split&"
 
 class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemClickListener
 {
@@ -26,17 +38,55 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        setAdater() // создаём Адаптёр коллекции arrayList
-
         // При нажатии кнопки '+' переходим на AddActivity для добавления нового элемента
         image_button_plus.setOnClickListener {
             startActivity(Intent(this, AddActivity::class.java))
+        }
+
+        // инициализируем sharedPreferences
+        initMemory()
+    }
+
+    // инициализируем sharedPreferences
+    private fun initMemory()
+    {
+        sharedPreferences = getSharedPreferences(keyMemory, MODE_PRIVATE)
+        editor = sharedPreferences.edit()
+    }
+
+    override fun onResume()
+    {
+        super.onResume()
+
+        // заполняем taskList
+        putToArrayList()
+
+        // создаём Адаптёр коллекции arrayList
+        setAdater()
+    }
+
+    // заполняем taskList
+    private fun putToArrayList()
+    {
+        // получаем строку из sharedPreferences
+        val text = sharedPreferences.getString(keyMemory, "")
+
+        // очищаем taskList
+        taskList.clear()
+
+        // заполняем taskList
+        val arrayString = text!!.split(split)
+
+        for (element in arrayString)
+        {
+            if (element != "") taskList.add(element)
         }
     }
 
     // создаём Адаптёр коллекции arrayList
     private fun setAdater()
-    { // объявляем и инициализируем Адаптёр коллекции arrayList
+    {
+        // объявляем и инициализируем Адаптёр коллекции arrayList
         val adapter = ArrayAdapter(this, R.layout.list_view, taskList)
 
         // подключаем Адаптёр
@@ -53,14 +103,10 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
     {
         super.onListItemClick(listView, element, position, id)
 
-        // создаём Intent
-        var intent = Intent(this, ModifyActivity::class.java)
-
-        // записываем в intent позицию нажатого элемента
-        intent.putExtra(keyPosition, position)
+        index = position
 
         // переходим на ModifyActivity
-        startActivity(intent)
+        startActivity(Intent(this, ModifyActivity::class.java))
     }
 
     // Не используется

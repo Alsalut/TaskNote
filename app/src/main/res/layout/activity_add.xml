@@ -25,23 +25,23 @@
         tools:ignore="LabelFor" />
 
     <ImageButton
-        android:id="@+id/image_button_delete"
+        android:id="@+id/image_button_delete_add"
         style="@style/style_image_button"
         android:background="@drawable/background_image_button"
         android:src="@drawable/btn_delete"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/image_button_save"
+        app:layout_constraintEnd_toStartOf="@id/image_button_save_add"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="ContentDescription" />
 
     <ImageButton
-        android:id="@+id/image_button_save"
+        android:id="@+id/image_button_save_add"
         style="@style/style_image_button"
         android:background="@drawable/background_image_button"
         android:src="@drawable/btn_save"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/image_button_delete"
+        app:layout_constraintStart_toEndOf="@id/image_button_delete_add"
         tools:ignore="ContentDescription" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
