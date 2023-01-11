@@ -78,9 +78,9 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
         val arrayString = text!!.split(split)
 
         for (element in arrayString) {
-            val elementBool = element[0].toString()
+            val elementStatus = element[0].toString()
             val elementStr = element.removeRange(0, 1) // До 1 не включительно
-            val tmpList = arrayListOf(elementBool, elementStr)
+            val tmpList = arrayListOf(elementStatus, elementStr)
             if (elementStr != "") taskList.add(tmpList)
         }
     }
