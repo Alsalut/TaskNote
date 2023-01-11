@@ -36,10 +36,8 @@ var index = 0
 // pattern для разбиения строки
 val split = "&split&"
 
-class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemClickListener
-{
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemClickListener {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -53,14 +51,12 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
     }
 
     // Инициализируем sharedPreferences
-    private fun initMemory()
-    {
+    private fun initMemory() {
         sharedPreferences = getSharedPreferences(keyMemory, MODE_PRIVATE)
         editor = sharedPreferences.edit()
     }
 
-    override fun onResume()
-    {
+    override fun onResume() {
         super.onResume()
 
         // Заполняем taskList
@@ -71,8 +67,7 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
     }
 
     // Заполняем taskList
-    private fun putToArrayList()
-    {
+    private fun putToArrayList() {
         // Получаем строку из sharedPreferences
         val text = sharedPreferences.getString(keyMemory, "")
 
@@ -82,8 +77,7 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
         // Заполняем taskList
         val arrayString = text!!.split(split)
 
-        for (element in arrayString)
-        {
+        for (element in arrayString) {
             val elementBool = element[0].toString()
             val elementStr = element.removeRange(0, 1) // До 1 не включительно
             val tmpList = arrayListOf(elementBool, elementStr)
@@ -92,8 +86,7 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
     }
 
     // Создаём адаптёр коллекции arrayList
-    private fun setAdater()
-    {
+    private fun setAdater() {
         // Создаём ArrayList для вывода на экран
         val showList = arrayListOf("")
         showList.clear()
@@ -112,8 +105,7 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
     // При кратком нажатии на элементе списка
     // переходим на ModifyActivity
     // для удаления или редактирования
-    override fun onItemClick(adapterView: AdapterView<*>, element: View?, position: Int, id: Long)
-    {
+    override fun onItemClick(adapterView: AdapterView<*>, element: View?, position: Int, id: Long) {
         super.onListItemClick(listView, element, position, id)
 
         index = position
@@ -123,14 +115,12 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
     }
 
     // Не используется
-    override fun onClick(element: View?)
-    {
+    override fun onClick(element: View?) {
         TODO("Not yet implemented")
     }
 
     // Жест "Назад" ( кнопка "Назад" ) - закрытие приложения и удаление из списка приложений
-    override fun onBackPressed()
-    {
+    override fun onBackPressed() {
         super.onBackPressed()
 
         // Завершаем работу приложения
