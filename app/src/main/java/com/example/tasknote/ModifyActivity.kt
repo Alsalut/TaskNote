@@ -1,7 +1,13 @@
 package com.example.tasknote
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.StrikethroughSpan
+import android.view.View
+import android.widget.ListView
+import android.widget.TextView
 import kotlinx.android.synthetic.main.activity_modify.*
 import kotlinx.android.synthetic.main.activity_modify.tv_app_name
 
@@ -13,7 +19,7 @@ class ModifyActivity : AppCompatActivity()
         setContentView(R.layout.activity_modify)
 
         // Заполняем EditText
-        et_modify_task.setText(taskList[index])
+        et_modify_task.setText(taskList[index][1])
 
         // Нажали на кнопку "Сохранить"
         image_button_save_modify.setOnClickListener { // Считываем текст из et_modify_task
@@ -22,7 +28,7 @@ class ModifyActivity : AppCompatActivity()
             // Если ничего не ввели, то удаляем задачу
             // Иначе заменяем задачу в taskList
             if (textModified.isBlank()) taskList.removeAt(index)
-            else taskList[index] = textModified
+            else taskList[index][1] = textModified
 
             // Заменяем строку в sharedPreferences
             fillMemoryFromTaskList()
@@ -38,11 +44,12 @@ class ModifyActivity : AppCompatActivity()
             if (textModified.isBlank()) taskList.removeAt(index)
             else
             {
-                taskList[index] = textModified
+                taskList[index][0] = statusDone
+                taskList[index][1] = textModified
 
                 if (taskList.size > 1)
                 {
-                    val textElement = taskList[index]
+                    val textElement = ArrayList(taskList[index])
                     taskList.removeAt(index)
                     taskList.add(textElement)
                 }
@@ -64,7 +71,7 @@ class ModifyActivity : AppCompatActivity()
     // Заменяем строку в sharedPreferences
     private fun fillMemoryFromTaskList()
     { // Задаём начальное значение stringModified
-        var stringModified = if (taskList.isEmpty()) "" else taskList[0]
+        var stringModified = if (taskList.isEmpty()) statusActive else "${taskList[0][0]}${taskList[0][1]}"
         var flag = true
 
         // Компонуем строку stringModified
@@ -76,7 +83,7 @@ class ModifyActivity : AppCompatActivity()
                 continue
             }
 
-            stringModified = "$stringModified$split$element"
+            stringModified = "$stringModified$split${element[0]}${element[1]}"
         }
 
         // Сохраняем строку в память

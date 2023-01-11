@@ -22,7 +22,7 @@ class AddActivity : AppCompatActivity()
             val textOld = sharedPreferences.getString(keyMemory, "")
 
             // Добавляем новую задачу в начало строки
-            val textNew = if (textOld == "") et_add_task.text.toString()
+            val textNew = statusActive + if (textOld == "") et_add_task.text.toString()
             else "${et_add_task.text}$split$textOld"
 
             // Заменяем строку в sharedPreferences

@@ -23,8 +23,12 @@ val keyMemory = "keyMemory"
 lateinit var sharedPreferences: SharedPreferences
 lateinit var editor: Editor
 
-// Создаём ArrayList для хранения списка дел в виде строк
-val taskList = arrayListOf("")
+// Два варианта статуса дел
+val statusActive = "-" // Активно
+val statusDone = "+" // Выполнено
+
+// Создаём ArrayList для хранения списка дел и их статусов в виде строк
+val taskList = arrayListOf(arrayListOf(""))
 
 // Индекс нажатого элемента
 var index = 0
@@ -80,15 +84,23 @@ class MainActivity : ListActivity(), View.OnClickListener, AdapterView.OnItemCli
 
         for (element in arrayString)
         {
-            if (element != "") taskList.add(element)
+            val elementBool = element[0].toString()
+            val elementStr = element.removeRange(0, 1) // До 1 не включительно
+            val tmpList = arrayListOf(elementBool, elementStr)
+            if (elementStr != "") taskList.add(tmpList)
         }
     }
 
     // Создаём адаптёр коллекции arrayList
     private fun setAdater()
     {
+        // Создаём ArrayList для вывода на экран
+        val showList = arrayListOf("")
+        showList.clear()
+        for (element in taskList) showList.add("${element[0]} ${element[1]}")
+
         // Объявляем и инициализируем адаптёр коллекции arrayList
-        val adapter = ArrayAdapter(this, R.layout.list_view, taskList)
+        val adapter = ArrayAdapter(this, R.layout.list_view, showList)
 
         // Подключаем адаптёр
         setListAdapter(adapter)
